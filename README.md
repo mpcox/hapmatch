@@ -78,7 +78,7 @@ hapmatch 4 0.444 6 0.948 0
 
 EXAMPLE
 
-The following command simulates 3 datasets, each containing 10 chromosome copies, with the first 4 copies deriving from population 1 (the ingroup) and the remaining 6 copies from population 2 (the outgroup).  *hapmatch* is set to find exact matches only, where haplotypes also meet the frequency cutoff of 44.4% for population 1 and 94.8% for population 2.
+The following command simulates 3 datasets, each containing 10 chromosome copies, with the first 4 copies deriving from population 1 (the ingroup) and the remaining 6 copies from population 2 (the outgroup).  *hapmatch* is set to find exact matches only, where haplotypes also meet the frequency cutoffs of 44.4% for population 1 and 94.8% for population 2.
 
 ```
 ms 10 3 -t 4 -I 2 4 6 1 | hapmatch 4 0.444 6 0.948 0
