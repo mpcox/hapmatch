@@ -4,25 +4,27 @@ This C++ program determines lineages with given in-group and out-group frequenci
 
 Cox MP, MG Nelson, MK Tumonggor, FX Ricaut and H Sudoyo. 2012. [A small cohort of Island Southeast Asian women founded Madagascar](https://doi.org/10.1098/rspb.2012.0012). *Proceedings of the Royal Society B* 279: 2761-2768.
 
+*hapmatch* takes input from [Richard Hudson's](http://home.uchicago.edu/~rhudson1/) [*ms*](http://home.uchicago.edu/%7Erhudson1/source/mksamples.html) like this:
 
-
-
-
-
-Hapmatch Examples
-Example input from ms
+```
 ms 10 1 –t x –I 2 3 7 ...
 ...
-1    111001100000110110000011110000000011101101110001110011
-2    000001000000100110000011000000010000001010001100111000   Madagascans
-3    000001000000100110000011000000010000001010001100111000
-4    000001000000100110000011000000010000000000001100111000
-5    000001000000100110000011000000010000001010001100111000
-6    000000000010100110000011000110010000001110001100000000
-7    000000000010100110000011000110010000001110001100000000   Indonesians
-8    000000000010100110000011000110000000001110001000000000
-9    000000000010100110000011000110010000001110001100000000
-10    000000000010100110000011000110011000001110011100000000
+<p style="color:blue">1    111001100000110110000011110000000011101101110001110011 ⎤</p>
+<p style="color:blue">2    000001000000100110000011000000010000001010001100111000 ⎥ Malagasy</p>
+<p style="color:blue">3    000001000000100110000011000000010000001010001100111000 ⎦</p>
+<p style="color:red">4    000001000000100110000011000000010000000000001100111000 ⎤</p>
+<p style="color:red">5    000001000000100110000011000000010000001010001100111000 ⎥</p>
+<p style="color:red">6    000000000010100110000011000110010000001110001100000000 ⎥</p>
+<p style="color:red">7    000000000010100110000011000110010000001110001100000000 ⎥ Indonesians</p>
+<p style="color:red">8    000000000010100110000011000110000000001110001000000000 ⎥</p>
+<p style="color:red">9    000000000010100110000011000110010000001110001100000000 ⎥</p>
+<p style="color:red">10   000000000010100110000011000110011000001110011100000000 ⎦</p>
+```
+
+Where sequences 1–3 (blue) derive from the Madagascar ingroup and 4–10 (red) from the Indonesian outgroup.
+
+
+
 Example command line and output – Requiring exact matches
 hapmatch 3 0.5 7 0.2 0
 S       Sin     Sout    hapmatch
@@ -76,7 +78,7 @@ Usage information can be found by running the command:
 hapmatch
 ```
 
-The program expects five values: the sample size and frequency cutoff of the ingroup, the sample size and frequency cutof of the outgroup, and a threshold for the number of allowed mismatches.  A threshold of 0 returns exact matches only.
+The program expects five values: the sample size and frequency cutoff of the ingroup, the sample size and frequency cutoff of the outgroup, and a threshold for the number of allowed mismatches.  A threshold of 0 returns exact matches only.
 
 ```
 hapmatch 4 0.444 6 0.948 0
