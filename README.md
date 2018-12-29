@@ -23,7 +23,7 @@ ms 10 1 –t 4 –I 2 4 6 ...
 
 Where sequences 1–4 are simulated data representing the Madagascar ingroup and 5–10 represent the Indonesian outgroup.
 
-Running *hapmatch* with an ingroup frequency cutoff of 0.2, an outgroup frequency cutoff of 0.8 and requiring exact matches:
+Running *hapmatch* with an ingroup frequency cutoff of ≥0.2, an outgroup frequency cutoff of ≤0.8 and requiring exact matches:
 
 ```
 cat test.ms | hapmatch 4 0.2 6 0.8 0
@@ -78,7 +78,7 @@ hapmatch 4 0.444 6 0.948 0
 
 EXAMPLE
 
-The following command simulates 3 datasets, each containing 10 chromosome copies, with the first 4 copies deriving from population 1 (the ingroup) and the remaining 6 copies from population 2 (the outgroup).  *hapmatch* is set to find exact matches only, where haplotypes also meet the frequency cutoffs of 44.4% for population 1 and 94.8% for population 2.
+The following command simulates 3 datasets, each containing 10 chromosome copies, with the first 4 copies deriving from population 1 (the ingroup) and the remaining 6 copies from population 2 (the outgroup).  *hapmatch* is set to find exact matches only, where haplotypes also meet the frequency cutoffs of ≥44.4% for population 1 and ≤94.8% for population 2.
 
 ```
 ms 10 3 -t 4 -I 2 4 6 1 | hapmatch 4 0.444 6 0.948 0
