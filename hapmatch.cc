@@ -1,5 +1,5 @@
 /*
-program:	madagascar
+program:	hapmatch
 date:		2 march 2011
 author:		murray cox
 function:	calculates lineages with one frequency in the ingroup, and another in the outgroup
