@@ -4,55 +4,42 @@ This C++ program determines lineages with given in-group and out-group frequenci
 
 Cox MP, MG Nelson, MK Tumonggor, FX Ricaut and H Sudoyo. 2012. [A small cohort of Island Southeast Asian women founded Madagascar](https://doi.org/10.1098/rspb.2012.0012). *Proceedings of the Royal Society B* 279: 2761-2768.
 
-*hapmatch* takes input from [Richard Hudson's](http://home.uchicago.edu/~rhudson1/) [*ms*](http://home.uchicago.edu/%7Erhudson1/source/mksamples.html) like this:
+*hapmatch* takes input from [Richard Hudson's](http://home.uchicago.edu/~rhudson1/) [*ms*](http://home.uchicago.edu/%7Erhudson1/source/mksamples.html) like the [example file, *test.ms*](test.ms):
 
 ```
-ms 10 1 –t x –I 2 3 7 ...
+ms 10 1 –t 4 –I 2 4 6 ...
 ...
 1    111001100000110110000011110000000011101101110001110011 ⎤
-2    000001000000100110000011000000010000001010001100111000 ⎥ Malagasy
-3    000001000000100110000011000000010000001010001100111000 ⎦
-4    000001000000100110000011000000010000000000001100111000 ⎤
-5    000001000000100110000011000000010000001010001100111000 ⎥
-6    000000000010100110000011000110010000001110001100000000 ⎥
+2    110001100000110110000011110000000011101101110001110011 ⎥ Malagasy
+3    000001000000100110000011000000010000001010001100111000 ⎥
+4    000001000000100110000011000000010000001010001100111000 ⎦
+5    000001000000100110000011000000010000000000001100111000 ⎤
+6    000001000000100110000011000000010000001010001100111000 ⎥
 7    000000000010100110000011000110010000001110001100000000 ⎥ Indonesians
-8    000000000010100110000011000110000000001110001000000000 ⎥
-9    000000000010100110000011000110010000001110001100000000 ⎥
+8    000000000010100110000011000110010000001110001100000000 ⎥
+9    000000000010100110000011000110000000001110001000000000 ⎥
 10   000000000010100110000011000110011000001110011100000000 ⎦
 ```
 
-Where sequences 1–3 derive from the Madagascar ingroup and 4–10 from the Indonesian outgroup.
+Where sequences 1–4 derive from the Madagascar ingroup and 5–10 from the Indonesian outgroup.
 
+Running *hapmatch* with an ingroup frequency cutoff of 0.2, an outgroup frequency cutoff of 0.8 and requiring exact matches:
 
+```
+cat test.ms | hapmatch 4 0.2 6 0.8 0
+```
 
-Example command line and output – Requiring exact matches
-hapmatch 3 0.5 7 0.2 0
+returns:
+
+```
 S       Sin     Sout    hapmatch
 54      31      20      1
-Example command line and output – Requiring exact number of differences
-hapmatch 3 0.5 7 0.2 2
-S       Sin     Sout    hapmatch
-54      31      20      1
-By Hand
-1     – Has > two mismatches with all 7 comparison sequences.
-2     – 4 has two mismatches (0 in red population and 1 in black)
-Counts as a hit for 2 mismatchs (2/3 > 0.5 and 1/7 < 0.2)
-– 5 only exact match
-Counts as a hit for exact match (2/3 > 0.5 and 1/7 < 0.2)
-– all others have > two 0 to 1 mismatches
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
+* Ingroup sequence 1 has >2 mismatches with all six outgroup sequences.
+* Ingroup sequence 2 has >2 mismatches with all six outgroup sequences.
+* Ingroup sequence 3 has 2 mismatches with outgroup sequence 5. This meets the cutoff criteria (1/4 ≥ 0.2 for the ingroup and 1/6 ≤ 0.8 for the outgroup), but not the exact match criterion.
+* Ingroup sequence 4 is an exact match with outgroup sequence 6.  This meets the cutoff criteria (1/4 ≥ 0.2 for the ingroup and 1/6 ≤ 0.8 for the outgroup), including the exact match criterion.
 
 INSTALLATION
 
