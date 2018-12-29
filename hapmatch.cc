@@ -3,10 +3,10 @@ program:	madagascar
 date:		2 march 2011
 author:		murray cox
 function:	calculates lineages with one frequency in the ingroup, and another in the outgroup
-            ingroup might be Madagascar (bottlenecked) versus outgroup Indonesia (source population)
+			ingroup might be Madagascar (bottlenecked) versus outgroup Indonesia (source population)
 
-date:       29 december 2018
-update:     updated to work with libsequence2
+date:		29 december 2018
+update:		updated to work with libsequence2
  
 compilation:
 include the libsequence library
