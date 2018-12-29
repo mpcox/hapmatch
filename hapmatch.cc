@@ -10,7 +10,7 @@ update:     updated to work with libsequence2
  
 compilation:
 include the libsequence library
-g++ -o hapmatch hapmatch.cc -lsequence -Wall
+g++ -o hapmatch hapmatch.cc -lsequence -std=c++11 -Wall
 */
 
 #include <iostream>
@@ -292,6 +292,6 @@ void printUsage(){
     
     //updated: added threshold information
     cout << "usage: <ms_output> | hapmatch ingroup_size ingroup_frequency_cutoff outgroup_size outgroup_frequency_cutoff threshold"
-         << "\nexample: ms 10 2 -t 4 | hapmatch 4 0.444 6 0.948 0\n";
+         << "\nexample: ms 10 3 -t 4 -I 2 4 6 1 | hapmatch 4 0.444 6 0.948 0\n";
 }
 
