@@ -1,51 +1,104 @@
-# mstree
+# hapmatch
 
-This Perl program calculates the minimum clade proportion (*p<sub>mc</sub>*) and time to the most recent common ancestor (*TMRCA*) for coalescent genealogies generated with the coalescent simulator [*ms*](http://home.uchicago.edu/%7Erhudson1/source/mksamples.html).
+This C++ program determines lineages with given in-group and out-group frequencies in a set of coalescent genealogies.  The code was used to calculate frequencies of lineages in a bottlenecked Madagascar ingroup versus a source Indonesian population outgroup in:
 
-The *p<sub>mc</sub>* summary statistic was developed and reported in:
+Cox MP, MG Nelson, MK Tumonggor, FX Ricaut and H Sudoyo. 2012. [A small cohort of Island Southeast Asian women founded Madagascar](https://doi.org/10.1098/rspb.2012.0012). *Proceedings of the Royal Society B* 279: 2761-2768.
 
-Cox MP, FL Mendez, TM Karafet, M Metni Pilkington, SB Kingan, G Destro-Bisol, BI Strassmann and MF Hammer. 2008. [Testing for archaic hominin admixture on the X chromosome: Model likelihoods for the modern human *RRM2P4* region from summaries of genealogical topology under the structured coalescent](https://doi.org/10.1534/genetics.107.080432). *Genetics* 178: 427-437.
 
-Specifically, the code implements equation A1 in the Appendix of Cox *et al* (2008) for the minimum clade proportion (*p<sub>mc</sub>*):
 
-<img src="Cox_EquationA1.jpg" width="175"/>
 
-where *n<sub>1,2</sub>* and *k<sub>1,2</sub>* are, respectively, the total number of individuals and number of chromosome copies from a specified group in basal clades 1 and 2.
+
+
+Hapmatch Examples
+Example input from ms
+ms 10 1 –t x –I 2 3 7 ...
+...
+1    111001100000110110000011110000000011101101110001110011
+2    000001000000100110000011000000010000001010001100111000   Madagascans
+3    000001000000100110000011000000010000001010001100111000
+4    000001000000100110000011000000010000000000001100111000
+5    000001000000100110000011000000010000001010001100111000
+6    000000000010100110000011000110010000001110001100000000
+7    000000000010100110000011000110010000001110001100000000   Indonesians
+8    000000000010100110000011000110000000001110001000000000
+9    000000000010100110000011000110010000001110001100000000
+10    000000000010100110000011000110011000001110011100000000
+Example command line and output – Requiring exact matches
+hapmatch 3 0.5 7 0.2 0
+S       Sin     Sout    hapmatch
+54      31      20      1
+Example command line and output – Requiring exact number of differences
+hapmatch 3 0.5 7 0.2 2
+S       Sin     Sout    hapmatch
+54      31      20      1
+By Hand
+1     – Has > two mismatches with all 7 comparison sequences.
+2     – 4 has two mismatches (0 in red population and 1 in black)
+Counts as a hit for 2 mismatchs (2/3 > 0.5 and 1/7 < 0.2)
+– 5 only exact match
+Counts as a hit for exact match (2/3 > 0.5 and 1/7 < 0.2)
+– all others have > two 0 to 1 mismatches
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 INSTALLATION
 
-*mstree* requires a standard working Perl installation and has been confirmed to work with Perl versions up to 5.18.2.
+*hapmatch* requires a working installation of [Kevin Thornton](http://www.molpopgen.org/markdown/krthornt)'s [*libsequence2*](https://molpopgen.github.io/libsequence/) library.
+
+The easiest way to install this is via [bioconda](https://bioconda.github.io): 
+
+```
+conda install -c bioconda libsequence
+```
+
+The *hapmatch* source code can then be compiled with:
+
+```
+g++ -o hapmatch hapmatch.cc -lsequence -std=c++11 -Wall
+```
 
 USAGE
 
-Assuming a standard installation (*i.e.,* with *mstree.pl* aliased to *mstree*), usage information can be found by running the command:
+Usage information can be found by running the command:
 
 ```
-mstree
+hapmatch
 ```
 
-The program expects two values: –g1, the number of individuals in the selected group; and –g2, the number of individuals in the non-selected group.
+The program expects five values: the sample size and frequency cutoff of the ingroup, the sample size and frequency cutof of the outgroup, and a threshold for the number of allowed mismatches.  A threshold of 0 returns exact matches only.
 
 ```
-mstree -g1 6 -g2 4
+hapmatch 4 0.444 6 0.948 0
 ```
 
-
-*mstree* reads coalescent genealogies from [Richard Hudson's](http://home.uchicago.edu/~rhudson1/) [*ms*](http://home.uchicago.edu/%7Erhudson1/source/mksamples.html).  Genealogies must be generated in *ms* using the –T flag, which outputs the coalescent tree in [Newick format](https://en.wikipedia.org/wiki/Newick_format).  Users should also generally apply the –I flag to define at least two populations.  *mstree* assumes that the first *n* individuals in the ms output belong to the selected group (–g1 *n*).  The user must define input datasets such that this condition holds true.
+*hapmatch* reads coalescent genealogies from [Richard Hudson's](http://home.uchicago.edu/~rhudson1/) [*ms*](http://home.uchicago.edu/%7Erhudson1/source/mksamples.html).
 
 EXAMPLE
 
-The following command line simulates 3 datasets, each containing 10 chromosome copies, with the first 6 copies deriving from group 1 and the remaining 4 copies from group 2:
+The following command line simulates 3 datasets, each containing 10 chromosome copies, with the first 4 copies deriving from population 1 (the ingroup) and the remaining 6 copies from population 2 (the outgroup).  *hapmatch* is set to look for exact matches only where haplotypes meet the frequency cutoff of 44.4% for population 1 and 94.8% for population 2.
 
 ```
-ms 10 3 -t 5 -I 2 6 4 1 -T | mstree -g1 6 -g2 4
+ms 10 3 -t 4 -I 2 4 6 1 | hapmatch 4 0.444 6 0.948 0
 ```
 
-The coalescent genealogies generated by *ms* are of course random, but the output formatting looks like the following, with each line containing summaries for a single input dataset:
+The coalescent genealogies generated by *ms* are random, but the output formatting looks like the following, with each line containing summaries for a single input dataset:
 
 ```
-pmc    tmrca
-0.33333    1.691
-0.42857    0.903
-0.00000    4.653
+S    Sin    Sout    hapmatch
+27    26    24    0
+17    12    15    1
+14    8    9    0
 ```
+where *S* is the total number of segregating sites, *S<sub>in</sub>* is the number of segregating sites in the ingroup, *S<sub>out</sub>* is the number of segregating sites in the outgroup, and *hapmatch* is the number of haplotypes matching the required conditions.
+
